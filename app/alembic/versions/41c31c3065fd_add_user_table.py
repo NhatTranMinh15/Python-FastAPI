@@ -22,7 +22,7 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    op.create_table(
+    users_table = op.create_table(
         "users",
         sa.Column("id", sa.UUID, primary_key=True, default=uuid.uuid4),
         sa.Column("email", sa.String, unique=True, nullable=False),
@@ -33,17 +33,33 @@ def upgrade() -> None:
         sa.Column("is_active", sa.Boolean, nullable=False, default=True),
         sa.Column("is_admin", sa.Boolean, nullable=False, default=False),
         sa.Column("company_id", sa.UUID),
-        sa.Column("created_at", sa.Time, nullable=False, default=datetime.now),
+        sa.Column("created_at", sa.DateTime, nullable=False, default=datetime.now),
         sa.Column(
             "updated_at",
-            sa.Time,
+            sa.DateTime,
             nullable=False,
             default=datetime.now,
             onupdate=datetime.now,
         ),
     )
-    op.create_foreign_key("fk_user_company", "users", "companies", ["company_id"], ["id"])
-    
+    op.create_foreign_key(
+        "fk_user_company", "users", "companies", ["company_id"], ["id"]
+    )
+    op.bulk_insert(
+        users_table,
+        [
+            {
+                "email": "admin@mail.com",
+                "username": "admin",
+                "first_name": "First",
+                "last_name": "Admin",
+                "hashed_password": "$2b$12$a2m15MlDX9IqkUfUmd1f6./6XdnnVIKGJslXA9oRe8XqkeC9SgBAW", # admin
+                "is_admin": True,
+            }
+        ],
+    )
+
 
 def downgrade() -> None:
+    op.drop_column("users", "company_id")
     op.drop_table("users")

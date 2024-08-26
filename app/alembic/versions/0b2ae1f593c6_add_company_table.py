@@ -27,14 +27,15 @@ def upgrade() -> None:
     companies_table = op.create_table(
         "companies",
         sa.Column("id", sa.UUID, primary_key=True, default=uuid.uuid4),
-        sa.Column("name", sa.String, nullable=False),
+        sa.Column("name", sa.String, unique=True, nullable=False),
         sa.Column("description", sa.Text),
         sa.Column("mode", sa.Enum(Mode), default=Mode.UNKNOWN),
         sa.Column("rating", sa.Double, default=0.0),
-        sa.Column("created_at", sa.Time, nullable=False, default=datetime.now),
+        sa.Column("total_rating_count", sa.Integer, default=0),
+        sa.Column("created_at", sa.DateTime, nullable=False, default=datetime.now),
         sa.Column(
             "updated_at",
-            sa.Time,
+            sa.DateTime,
             nullable=False,
             default=datetime.now,
             onupdate=datetime.now,
@@ -70,7 +71,7 @@ def upgrade() -> None:
                 "description": "Bad",
                 "mode": "HYBRID",
                 "rating": 1,
-            }
+            },
         ],
     )
 
