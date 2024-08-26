@@ -53,8 +53,10 @@ def get_one_user_by_id(db: Session, user_id: UUID) -> UserSchema:
     return user
 
 def get_one_user_by_email(db: Session, user_email: str) -> UserSchema:
-    return db.scalars(select(UserSchema).filter(UserSchema.email == user_email)).first()
-
+    user =  db.scalars(select(UserSchema).filter(UserSchema.email == user_email)).first()
+    if not user:
+        raise ResourceNotFoundException()
+    return user
 
 def create_user(db: Session, user_request: CreateUserRequestModel):
     email = user_request.email
