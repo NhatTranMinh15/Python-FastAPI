@@ -47,8 +47,10 @@ def get_all_users(
 
 
 def get_one_user_by_id(db: Session, user_id: UUID) -> UserSchema:
-    return db.scalars(select(UserSchema).filter(UserSchema.id == user_id)).first()
-
+    user = db.scalars(select(UserSchema).filter(UserSchema.id == user_id)).first()
+    if not user:
+        raise ResourceNotFoundException()
+    return user
 
 def get_one_user_by_email(db: Session, user_email: str) -> UserSchema:
     return db.scalars(select(UserSchema).filter(UserSchema.email == user_email)).first()
@@ -59,9 +61,8 @@ def create_user(db: Session, user_request: CreateUserRequestModel):
     user: UserSchema = get_one_user_by_email(db, email)
     if user:
         raise ConflictException()
-
+    
     user_schema = UserSchema(**user_request.model_dump())
-
     db.add(user_schema)
     db.commit()
     db.refresh(user_schema)

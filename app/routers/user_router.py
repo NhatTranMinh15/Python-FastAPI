@@ -3,6 +3,7 @@ from uuid import UUID
 
 from fastapi_pagination import Page
 
+from schemas.user_schema import UserSchema
 from config.database import db_dependency
 from fastapi import APIRouter, Depends, Query
 from models.user_model import (
@@ -23,10 +24,9 @@ router = APIRouter(prefix="/users", tags=["Users"])
 @router.get("", status_code=status.HTTP_200_OK, response_model=Page[UserResponseModel])
 async def get_all_user(
     user_request: UserRequestModel = Depends(),
-    junction_type: str = Query(default="OR"),
+    junction_type: str = Query(default="AND"),
     db: Session = db_dependency,
 ):
-    print(user_request)
     users = UserService.get_all_users(db, user_request, junction_type)
     return users
 
@@ -36,8 +36,6 @@ async def get_all_user(
 )
 async def get_one_user(user_id: UUID, db: Session = db_dependency):
     user = UserService.get_one_user_by_id(db, user_id)
-    if not user:
-        raise ResourceNotFoundException()
     return user
 
 
