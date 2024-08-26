@@ -1,14 +1,14 @@
 from datetime import datetime
 import uuid
 
-from sqlalchemy import Column, Time, Uuid, event
+from sqlalchemy import Column, DateTime, Time, Uuid, event
 
 
 class BaseSchema:
     id = Column(Uuid, primary_key=True, default=uuid.uuid4)
-    created_at = Column(Time, nullable=False, default=datetime.now)
+    created_at = Column(DateTime, nullable=False, default=datetime.now)
     updated_at = Column(
-        Time, nullable=False, default=datetime.now, onupdate=datetime.now
+        DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
     )
 
 
