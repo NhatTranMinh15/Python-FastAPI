@@ -33,7 +33,8 @@ class CreateUserRequestModel(BaseModel):
     first_name: str
     last_name: str
     hashed_password: str
-    is_admin: bool= False
+    company_id: UUID
+    is_admin: bool = False
 
 
 class UpdateUserRequestModel(BaseModel):

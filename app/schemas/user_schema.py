@@ -1,10 +1,10 @@
 from passlib.context import CryptContext
 from sqlalchemy import Boolean, Column, ForeignKey, String, Uuid, event
-from sqlalchemy.orm import validates
+from sqlalchemy.orm import validates, relationship
 
+from schemas.company_schema import CompanySchema
 from config.database import Base
 from schemas.base_schema import BaseSchema
-from sqlalchemy.orm import relationship
 
 bcrypt = CryptContext(schemes=["bcrypt"])
 
@@ -20,7 +20,7 @@ class UserSchema(BaseSchema, Base):
     is_active = Column(Boolean, nullable=False, default=True)
     is_admin = Column(Boolean, nullable=False, default=False)
     company_id = Column(Uuid, ForeignKey("companies.id"))
-    company = relationship("CompanySchema")
+    company = relationship(CompanySchema, back_populates = "users")
 
     @validates("email")
     def validate_email(self, _, value):
