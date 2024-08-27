@@ -7,6 +7,7 @@ app = FastAPI()
 add_pagination(app)
 app.include_router(user_router.router)
 app.include_router(company_router.router)
+app.include_router(task_router.router)
 
 
 @app.get("/")
