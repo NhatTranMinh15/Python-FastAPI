@@ -1,4 +1,4 @@
-"""Add User table
+"""Create User table
 
 Revision ID: 41c31c3065fd
 Revises: 
@@ -7,11 +7,15 @@ Create Date: 2024-08-23 16:53:39.186979
 """
 
 from datetime import datetime
+from random import random, randrange
 from typing import Sequence, Union
 import uuid
 
 from alembic import op
 import sqlalchemy as sa
+
+from services.name_generator import name_gen
+from passlib.context import CryptContext
 
 
 # revision identifiers, used by Alembic.
@@ -19,6 +23,17 @@ revision: str = "41c31c3065fd"
 down_revision: Union[str, None] = "0b2ae1f593c6"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
+
+
+bcrypt = CryptContext(schemes=["bcrypt"])
+
+
+def gen_user():
+    first_name = name_gen.get_first_name()
+    last_name = name_gen.get_last_name()
+    username = name_gen.get_username(first_name + " " + last_name)
+    email = name_gen.get_email(first_name + " " + last_name)
+    return [first_name, last_name, username, email]
 
 
 def upgrade() -> None:
@@ -45,6 +60,7 @@ def upgrade() -> None:
     op.create_foreign_key(
         "fk_user_company", "users", "companies", ["company_id"], ["id"]
     )
+
     op.bulk_insert(
         users_table,
         [
@@ -53,11 +69,26 @@ def upgrade() -> None:
                 "username": "admin",
                 "first_name": "First",
                 "last_name": "Admin",
-                "hashed_password": "$2b$12$a2m15MlDX9IqkUfUmd1f6./6XdnnVIKGJslXA9oRe8XqkeC9SgBAW", # admin
+                "hashed_password": "$2b$12$a2m15MlDX9IqkUfUmd1f6./6XdnnVIKGJslXA9oRe8XqkeC9SgBAW",  # admin
                 "is_admin": True,
             }
         ],
     )
+    print("Adding User ...")
+    data = []
+    for i in range(100):
+        [first_name, last_name, username, email] = gen_user()
+        password = bcrypt.hash(email)
+        user = {
+            "email": email + str(randrange(100)) + "@mail.com",
+            "username": username,
+            "first_name": first_name,
+            "last_name": last_name,
+            "hashed_password": password,  # email
+            "is_admin": False if random() < 0.9 else True,
+        }
+        data.append(user)
+    op.bulk_insert(users_table, data)
 
 
 def downgrade() -> None:

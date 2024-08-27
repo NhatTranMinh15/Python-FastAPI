@@ -1,7 +1,7 @@
-"""Add Company Table
+"""Create Company Table
 
 Revision ID: 0b2ae1f593c6
-Revises: 41c31c3065fd
+Revises: 
 Create Date: 2024-08-23 17:04:48.074981
 
 """
