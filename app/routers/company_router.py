@@ -37,7 +37,7 @@ async def get_all_companies(
 @router.get(
     "/{company_id}", status_code=status.HTTP_200_OK, response_model=CompanyResponseModel
 )
-async def get_all_companies(company_id: UUID, db: Session = db_dependency):
+async def get_one_company(company_id: UUID, db: Session = db_dependency):
     return CompanyService.get_one_company(db, company_id)
 
 

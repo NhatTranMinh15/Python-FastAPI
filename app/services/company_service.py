@@ -24,26 +24,25 @@ def get_all_companies(
     mode: List[Mode],
     junction_type: str,
 ) -> Page[CompanySchema]:
-    query = select(CompanySchema).options(joinedload(CompanySchema.users))
-    if company_request is not None:
-        conditions = []
-        if company_request.name:
-            conditions.append(CompanySchema.name.like(f"{company_request.name}%"))
-        if company_request.description:
-            conditions.append(
-                CompanySchema.description.like(f"%{company_request.description}%")
-            )
-        if mode:
-            conditions.append(CompanySchema.mode.in_(mode))
+    query = select(CompanySchema)
+    conditions = []
+    if company_request.name:
+        conditions.append(CompanySchema.name.like(f"{company_request.name}%"))
+    if company_request.description:
         conditions.append(
-            CompanySchema.rating.between(
-                company_request.rating_from, company_request.rating_to
-            )
+            CompanySchema.description.like(f"%{company_request.description}%")
         )
-        if junction_type == "OR":
-            query = query.filter(or_(*conditions))
-        elif junction_type == "AND":
-            query = query.filter(and_(*conditions))
+    if mode:
+        conditions.append(CompanySchema.mode.in_(mode))
+    conditions.append(
+        CompanySchema.rating.between(
+            company_request.rating_from, company_request.rating_to
+        )
+    )
+    if junction_type == "OR":
+        query = query.filter(or_(*conditions))
+    elif junction_type == "AND":
+        query = query.filter(and_(*conditions))
     page = paginate(
         db, query, params=Params(size=company_request.size, page=company_request.page)
     )

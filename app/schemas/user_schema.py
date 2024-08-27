@@ -20,7 +20,10 @@ class UserSchema(BaseSchema, Base):
     is_active = Column(Boolean, nullable=False, default=True)
     is_admin = Column(Boolean, nullable=False, default=False)
     company_id = Column(Uuid, ForeignKey("companies.id"))
-    company = relationship(CompanySchema, back_populates = "users")
+    company = relationship("CompanySchema", back_populates = "users")
+
+    tasks = relationship("TaskSchema", back_populates="user")
+
 
     @validates("email")
     def validate_email(self, _, value):
