@@ -7,12 +7,12 @@ Create Date: 2024-08-23 17:23:08.344346
 """
 
 from datetime import datetime
+import random
 from typing import Sequence, Union
 import uuid
-
 from alembic import op
 import sqlalchemy as sa
-
+from services.name_generator import name
 from schemas.task_schema import Priority, Status
 
 
@@ -24,7 +24,7 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    op.create_table(
+    task_table = op.create_table(
         "tasks",
         sa.Column("id", sa.UUID, primary_key=True, default=uuid.uuid4),
         sa.Column("summary", sa.String, nullable=False, default=""),
@@ -44,9 +44,20 @@ def upgrade() -> None:
         ),
     )
 
+    task_array = []
+    for i in range(name.task_length):
+        t = {
+            "id": uuid.uuid4(),
+            "summary": name.task[i],
+            "description": name.task_description[i],
+            "status": random.choice(list(Status)),
+            "priority": random.choice(list(Priority)),
+        }
+        task_array.append(t)
+    op.bulk_insert(task_table, task_array)
+
 
 def downgrade() -> None:
     op.drop_table("tasks")
     op.execute("DROP TYPE status;")
     op.execute("DROP TYPE priority;")
-

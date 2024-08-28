@@ -6,17 +6,16 @@ Create Date: 2024-08-23 16:53:39.186979
 
 """
 
+import uuid
 from datetime import datetime
 from random import random, randrange
 from typing import Sequence, Union
-import uuid
+
+import sqlalchemy as sa
+from passlib.context import CryptContext
+from services.name_generator import name_gen
 
 from alembic import op
-import sqlalchemy as sa
-
-from services.name_generator import name_gen
-from passlib.context import CryptContext
-
 
 # revision identifiers, used by Alembic.
 revision: str = "41c31c3065fd"
@@ -74,11 +73,10 @@ def upgrade() -> None:
             }
         ],
     )
-    print("Adding User ...")
     data = []
+    password = bcrypt.hash("password")
     for i in range(100):
         [first_name, last_name, username, email] = gen_user()
-        password = bcrypt.hash(email)
         user = {
             "email": email + str(randrange(100)) + "@mail.com",
             "username": username,
@@ -87,6 +85,7 @@ def upgrade() -> None:
             "hashed_password": password,  # email
             "is_admin": False if random() < 0.9 else True,
         }
+        print(f"Adding user {i+1} of 100")
         data.append(user)
     op.bulk_insert(users_table, data)
 
