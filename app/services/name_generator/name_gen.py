@@ -61,3 +61,10 @@ def get_username(fullname: str = None):
         return fullname.lower().replace(" ", "_") + (
             "_" + str(randrange(9999)) if random() > 0.7 else ""
         )
+
+
+def get_random_word(min=1, max=20):
+    d = word[randrange(word_length)]
+    for i in range(randrange(min, max)):
+        d += " " + word[randrange(word_length)]
+    return d
