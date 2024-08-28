@@ -16,8 +16,19 @@ class Status(enum.Enum):
     IN_PROGRESS = "IN_PROGRESS"
     IN_REVIEW = "IN_REVIEW"
     APPROVED = "APPROVED"
-    DONE = "DONE"
     CANCELLED = "CANCELLED"
+    COMPLETED = "COMPLETED"
+    ON_HOLD = "ON HOLD"
+    PENDING_REVIEW = "PENDING REVIEW"
+    DEFERRED = "DEFERRED"
+    BLOCKED = "BLOCKED"
+    READY_FOR_TESTING = "READY_FOR_TESTING"
+    IN_TESTING = "IN_TESTING"
+    FAILED_TESTING = "FAILED_TESTING"
+    READY_FOR_DEPLOYMENT = "READY_FOR_DEPLOYMENT"
+    DEPLOYED = "DEPLOYED"
+    ARCHIVED = "ARCHIVED"
+    WAITING_FOR_INPUT = "WAITING_FOR_INPUT"
 
 
 class Priority(enum.Enum):
@@ -38,9 +49,3 @@ class TaskSchema(BaseSchema, Base):
     user_id = Column(Uuid, ForeignKey("users.id"), nullable=True)
     user = relationship("UserSchema", back_populates="tasks")
 
-@event.listens_for(TaskSchema, "before_insert")
-def hash_password(mapper, connection, target):
-    if not target.status:
-        target.status = Status.OPEN
-    if not target.priority:
-        target.priority = Priority.MEDIUM

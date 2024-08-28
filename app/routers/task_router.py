@@ -18,46 +18,45 @@ router = APIRouter(prefix="/tasks", tags=["Tasks"])
 
 
 @router.get("", status_code=status.HTTP_200_OK, response_model=Page[TaskResponseModel])
-async def get_all_task(
+async def get_all_tasks(
     task_request: TaskRequestModel = Depends(),
     junction_type: str = Query(default="AND"),
     status: Optional[List[Status]] = Query(None),
     priority: Optional[List[Priority]] = Query(None),
     db: Session = db_dependency,
 ):
+    print(task_request)
     tasks = TaskService.get_all_tasks(db, task_request, junction_type, status, priority)
-    return tasks
-
-
-@router.get(
-    "/user/{user_id}",
-    status_code=status.HTTP_200_OK,
-    response_model=Page[TaskResponseModel],
-)
-async def get_my_tasks(
-    user_id: UUID,
-    task_request: TaskRequestModel = Depends(),
-    junction_type: str = Query(default="AND"),
-    status: Optional[List[Status]] = Query(None),
-    priority: Optional[List[Priority]] = Query(None),
-    db: Session = db_dependency,
-):
-    tasks = TaskService.get_my_tasks(
-        db, user_id, task_request, junction_type, status, priority
-    )
     return tasks
 
 
 @router.get(
     "/{task_id}", status_code=status.HTTP_200_OK, response_model=TaskResponseModel
 )
-async def get_all_companies(task_id: UUID, db: Session = db_dependency):
+async def get_one_task(task_id: UUID, db: Session = db_dependency):
     return TaskService.get_one_task(db, task_id)
 
 
 @router.post("", status_code=status.HTTP_201_CREATED, response_model=TaskResponseModel)
-async def get_all_companies(
+async def create_task(
     task_request: CreateTaskRequestModel, db: Session = db_dependency
 ):
     print(0, task_request)
     return TaskService.create_task(db, task_request)
+
+
+@router.put(
+    "/{task_id}", status_code=status.HTTP_200_OK, response_model=TaskResponseModel
+)
+async def update_task(
+    task_id: UUID,
+    task_request: CreateTaskRequestModel,
+    r: bool = False,
+    db: Session = db_dependency,
+):
+    return TaskService.update_task(db, task_id, task_request, remove_user=r)
+
+
+@router.delete("/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_task(task_id: UUID, db: Session = db_dependency):
+    return TaskService.delete_task(db, task_id)
