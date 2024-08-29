@@ -1,11 +1,23 @@
-import { BrowserRouter } from 'react-router-dom'
-import './App.css'
-
+import { Col, Container, Row } from 'react-bootstrap'
+import "./App.css"
 function App() {
     return (
-        <BrowserRouter>
-            Container
-        </BrowserRouter>
+        <Container>
+            <Row>
+                <Col>
+                    1
+                </Col>
+                <Col>
+                    2
+                </Col>
+                <Col>
+                    3
+                </Col>
+                <Col>
+                    4
+                </Col>
+            </Row>
+        </Container>
     )
 }
 
