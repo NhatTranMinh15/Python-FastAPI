@@ -1,10 +1,13 @@
+"""Company Service"""
+
 from typing import List
 from uuid import UUID
 
-from fastapi import HTTPException
 from fastapi_pagination import Page, Params
 from fastapi_pagination.ext.sqlalchemy import paginate
-from schemas.user_schema import UserSchema
+from sqlalchemy import and_, or_, select
+from sqlalchemy.orm import Session, joinedload
+
 from models.company_model import (
     CompanyRequestModel,
     CreateCompanyRequestModel,
@@ -12,10 +15,8 @@ from models.company_model import (
     UpdateCompanyRequestModel,
 )
 from schemas.company_schema import CompanySchema, Mode
-from services.exceptions import BadRequestException, ResourceNotFoundException
-from sqlalchemy import and_, or_, select
-from sqlalchemy.orm import Session, joinedload
 from services import user_service as UserService
+from services.exceptions import BadRequestException, ResourceNotFoundException
 
 
 def get_all_companies(
@@ -24,6 +25,17 @@ def get_all_companies(
     mode: List[Mode],
     junction_type: str,
 ) -> Page[CompanySchema]:
+    """Get All Companies
+
+    Args:
+        db (Session): Database Session
+        company_request (CompanyRequestModel): Filter Parameter
+        mode (List[Mode]): Mode filter
+        junction_type (str): Parameters join type. Either "AND" or "OR". Default to "AND"
+
+    Returns:
+        Page[CompanySchema]: One Page of Companies
+    """
     query = select(CompanySchema)
     conditions = []
     if company_request.name:
@@ -49,7 +61,19 @@ def get_all_companies(
     return page
 
 
-def get_one_company(db: Session, company_id: UUID):
+def get_one_company(db: Session, company_id: UUID)-> CompanySchema:
+    """Get One Comanpy
+
+    Args:
+        db (Session): Database Session
+        company_id (UUID): Company ID
+
+    Raises:
+        ResourceNotFoundException
+
+    Returns:
+        CompanySchema: One Company Information
+    """
     company = db.scalars(
         select(CompanySchema)
         .options(joinedload(CompanySchema.users))
@@ -100,7 +124,7 @@ def update_company(
 
 def add_or_remove_user(db: Session, company_id: UUID, user_id: UUID, action: str):
     company = get_one_company(db, company_id)
-    user = UserService.get_one_user_by_id(db, user_id)
+    user = UserService.get_one_user(db, "id", user_id)
     if action == "ADD":
         company.users.append(user)
     elif action == "REMOVE":
@@ -115,3 +139,9 @@ def add_or_remove_user(db: Session, company_id: UUID, user_id: UUID, action: str
     db.refresh(company)
 
     return company
+
+
+def delete_company(db: Session, company_id: UUID):
+    company = get_one_company(db, company_id)
+    db.delete(company)
+    db.commit()
