@@ -34,7 +34,7 @@ def get_all_users(
     Returns:
         Page[UserSchema]: One page of users
     """
-    query = select(UserSchema).filter(UserSchema.is_active is True)
+    query = select(UserSchema).filter(UserSchema.is_active)
 
     conditions = []
     if user_request.username:

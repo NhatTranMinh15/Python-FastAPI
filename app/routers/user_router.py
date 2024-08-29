@@ -25,9 +25,9 @@ async def get_all_user(
     user_request: UserRequestModel = Depends(),
     junction_type: str = Query(default="AND"),
     db: Session = db_dependency,
-    user_token: UserSchema = Depends(
-        AuthService.get_token_interceptor(allow_user=True)
-    ),
+    # user_token: UserSchema = Depends(
+    #     AuthService.get_token_interceptor(allow_user=True)
+    # ),
 ):
     """Endpoint to retrive infomation of all users. Any user can do this action
 
