@@ -1,4 +1,5 @@
 """task Router"""
+
 from typing import List, Optional
 from uuid import UUID
 
@@ -8,8 +9,11 @@ from sqlalchemy.orm import Session
 from starlette import status
 
 from config.database import db_dependency
-from models.task_model import (CreateTaskRequestModel, TaskRequestModel,
-                               TaskResponseModel)
+from models.task_model import (
+    CreateTaskRequestModel,
+    TaskRequestModel,
+    TaskResponseModel,
+)
 from schemas.task_schema import Priority, Status
 from schemas.user_schema import UserSchema
 from services import auth_service as AuthService
@@ -44,7 +48,12 @@ async def get_all_tasks(
         Page[TaskResponseModel]: A paginated list of tasks.
     """
     tasks = TaskService.get_all_tasks(
-        db, task_request, junction_type, statuses, priorities
+        db,
+        task_request,
+        junction_type,
+        user_token,
+        statuses,
+        priorities,
     )
     return tasks
 

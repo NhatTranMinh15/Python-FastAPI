@@ -20,7 +20,7 @@ class Mode(enum.Enum):
 
     HYBRID = "HYBRID"
     ONSITE = "ONSITE"
-    REMOTE = "REMOTER"
+    REMOTE = "REMOTE"
     UNKNOWN = "UNKNOWN"
 
 

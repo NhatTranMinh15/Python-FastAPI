@@ -1,15 +1,18 @@
 """User Services"""
+
 from datetime import datetime
 from typing import List
 from uuid import UUID
 
-from fastapi_pagination import Page
+from fastapi_pagination import Page, Params
 from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy import and_, or_, select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from models.task_model import CreateTaskRequestModel, TaskRequestModel
 from schemas.task_schema import Priority, Status, TaskSchema
+from schemas.user_schema import UserSchema
+
 # from schemas.user_schema import UserSchema
 from services import user_service as UserService
 from services.exceptions import ResourceNotFoundException
@@ -19,7 +22,7 @@ def get_all_tasks(
     db: Session,
     task_request: TaskRequestModel,
     junction_type: str,
-    # user_token:UserSchema,
+    user_token: UserSchema,
     status=List[Status],
     priority=List[Priority],
 ) -> Page[TaskSchema]:
@@ -36,11 +39,13 @@ def get_all_tasks(
     Returns:
         Page[TaskSchema]: One Page of Tasks
     """
-    query = select(TaskSchema)
+    query = select(TaskSchema).options(joinedload(TaskSchema.user))
+    if not user_token.is_admin or not task_request.all:
+        query = query.filter((TaskSchema.user_id == user_token.id))
     conditions = []
     if task_request.id:
         conditions.append(TaskSchema.id == task_request.id)
-    if task_request.user_id:
+    if user_token.is_admin and task_request.user_id:
         conditions.append(TaskSchema.user_id == task_request.user_id)
     if status:
         conditions.append(TaskSchema.status.in_(status))
@@ -57,11 +62,14 @@ def get_all_tasks(
             task_request.created_from, task_request.created_to
         )
     )
+
     if junction_type == "OR":
         query = query.filter(or_(*conditions))
     elif junction_type == "AND":
         query = query.filter(and_(*conditions))
-    return paginate(db, query)
+    return paginate(
+        db, query, params=Params(size=task_request.size, page=task_request.page)
+    )
 
 
 def get_one_task(db: Session, task_id: UUID) -> TaskSchema:
@@ -107,7 +115,7 @@ def create_task(db: Session, task_request: CreateTaskRequestModel) -> TaskSchema
 
 def update_task(
     db: Session, task_id: UUID, task_request: CreateTaskRequestModel, remove_user: bool
-)-> TaskSchema:
+) -> TaskSchema:
     """Update one task
 
     Args:

@@ -1,11 +1,23 @@
 import { Col, Nav, Row } from "react-bootstrap";
 import {
-    GlobalOutlined, UserOutlined, BarsOutlined
+    HomeOutlined, GlobalOutlined, UserOutlined, BarsOutlined
 } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 export const Sidebar = () => {
     return (
-        <Nav defaultActiveKey="user" className="flex-column sidebar" style={{ position: 'sticky', top: "40%" }}>
+        <Nav defaultActiveKey="home" className="flex-column sidebar" style={{ position: 'sticky', top: "0", width: "100%", minHeight:"500px" }}>
+            <Nav.Item>
+                <Nav.Link as={Link} to={'/'} eventKey={"home"}>
+                    <Row>
+                        <Col sm={3}>
+                            <HomeOutlined className="nav-icon" />
+                        </Col>
+                        <Col>
+                            Home
+                        </Col>
+                    </Row>
+                </Nav.Link>
+            </Nav.Item>
             <Nav.Item>
                 <Nav.Link as={Link} to={'/user/'} eventKey={"user"}>
                     <Row>

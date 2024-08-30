@@ -1,4 +1,5 @@
 """Task Model"""
+
 from datetime import datetime
 from typing import List, Optional
 from uuid import UUID
@@ -30,6 +31,9 @@ class TaskRequestModel(BaseModel):
         description (Optional[str]): A part description of the task.
         created_from (Optional[datetime]): The start datetime for filtering tasks. Default is January 1, 1970.
         created_to (Optional[datetime]): The end datetime for filtering tasks. Default is now, created at the time of request
+        all (Optional[bool]): Get all other user tasks. Default is false. Only admin can use this feature
+        page (int): The page number for pagination. Default is 1.
+        size (int): The number of items per page for pagination. Default is 15.
     """
 
     id: Optional[UUID] = None
@@ -38,6 +42,9 @@ class TaskRequestModel(BaseModel):
     description: Optional[str] = ""
     created_from: Optional[datetime] = datetime(1970, 1, 1, 0, 0, 1)
     created_to: Optional[datetime] = None
+    all: bool = False
+    page: int = 1
+    size: int = 15
 
 
 class CreateTaskRequestModel(BaseModel):

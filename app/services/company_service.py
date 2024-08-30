@@ -83,6 +83,29 @@ def get_one_company(db: Session, company_id: UUID)-> CompanySchema:
         raise ResourceNotFoundException()
     return company
 
+def get_my_company(db: Session, user_id: UUID)-> CompanySchema:
+    """Get My Comanpy
+
+    Args:
+        db (Session): Database Session
+        company_id (UUID): Company ID
+
+    Raises:
+        ResourceNotFoundException
+
+    Returns:
+        CompanySchema: One Company Information
+    """
+    user = UserService.get_one_user(db, "id", user_id)
+    company = db.scalars(
+        select(CompanySchema)
+        .options(joinedload(CompanySchema.users))
+        .filter(CompanySchema.users.contains(user))
+    ).first()
+    if not company:
+        raise ResourceNotFoundException()
+    return company
+
 
 def create_company(db: Session, company_request: CreateCompanyRequestModel):
     company_schema = CompanySchema(**company_request.model_dump())
@@ -130,8 +153,8 @@ def add_or_remove_user(db: Session, company_id: UUID, user_id: UUID, action: str
     elif action == "REMOVE":
         try:
             company.users.remove(user)
-        except:
-            raise BadRequestException(f"User {user.username} is not in this company")
+        except Exception as exc:
+            raise BadRequestException(f"User {user.username} is not in this company") from exc
     else:
         raise BadRequestException(f"There is no {action} action")
 

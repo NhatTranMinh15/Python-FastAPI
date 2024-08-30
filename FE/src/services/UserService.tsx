@@ -9,10 +9,8 @@ export const getUserUrl = (params: UserParamModel) => API + "/users" + buildPara
 
 export const userFetcher = async (url: string) => {
     message.loading({ content: 'Loading Users...', key: 'loadingUsers', duration: 0 });
-    const response = await axios.get(url, axiosConfig)
-    const data: PageResponseModel<UserModel> = response.data;
-    console.log(data);
-    
+    const response = await axios.get(url, axiosConfig())
+    const data: PageResponseModel<UserModel> = response.data;    
     message.destroy('loadingUsers')
     return data;
 }
@@ -24,6 +22,5 @@ function buildParam(params: UserParamModel) {
         + (params.last_name ? "last_name=" + params.last_name + "&" : "")
         + (params.page ? "page=" + params.page + "&" : "")
         + (params.size ? "size=" + params.size : "")
-    console.log(param)
     return param;
 }

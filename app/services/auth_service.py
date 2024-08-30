@@ -75,7 +75,7 @@ def create_access_token(user: UserSchema, expires: Optional[timedelta] = None):
     expire = (
         get_current_utc_time() + expires
         if expires
-        else get_current_utc_time() + timedelta(minutes=30)
+        else get_current_utc_time() + timedelta(minutes=60)
     )
     claims.update({"exp": expire})
     return jwt.encode(claims, JWT_SECRET, algorithm=JWT_ALGORITHM)

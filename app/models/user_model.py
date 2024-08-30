@@ -125,3 +125,12 @@ class UserResponseForAdminModel(UserResponseModel):
         """Config"""
 
         from_attributes = True
+
+class Token():
+    """JWT Token Model"""
+    id: UUID
+    email: str
+    username: str
+    first_name: str
+    last_name: str
+    is_admin: bool

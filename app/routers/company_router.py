@@ -50,6 +50,28 @@ async def get_all_companies(
 
 
 @router.get(
+    "/my-company", status_code=status.HTTP_200_OK, response_model=CompanyResponseModel
+)
+async def get_my_company(
+    db: Session = db_dependency,
+    user_token: UserSchema = Depends(
+        AuthService.get_token_interceptor(allow_user=True)
+    ),
+):
+    """
+    Retrieves details of a specific company by its ID.
+
+    Args:
+        company_id (UUID): The unique identifier of the company.
+        db (Session): The database session dependency.
+        user_token (UserSchema): The user token for authentication.
+
+    Returns:
+        CompanyResponseModel: The details of the company.
+    """
+    return CompanyService.get_my_company(db, user_token.id)
+
+@router.get(
     "/{company_id}", status_code=status.HTTP_200_OK, response_model=CompanyResponseModel
 )
 async def get_one_company(

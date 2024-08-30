@@ -35,7 +35,6 @@ table {
     font-family: arial, sans-serif;
     width: 100%;
     table-layout: auto;
-    /* border-spacing: 10px; */
     min-width: fit-content;
     overflow-x: auto;
   }
@@ -43,12 +42,15 @@ table {
 .table-header {
     display: flex;
     flex-direction: row;
-    /* justify-content: space-between; */
     padding: 0;
-    /* align-items: center; */
-
 }
 
 .header-border {
     border-bottom: 2px solid black;
+}
+.collapsed-td{
+    max-width: 10vw;
+}
+tr:hover{
+    cursor: pointer;
 }

@@ -10,9 +10,13 @@ from sqlalchemy.orm import Session
 from starlette import status
 
 from config.database import db_dependency
-from models.user_model import (CreateUserRequestModel, UpdateUserRequestModel,
-                               UserRequestModel, UserResponseForAdminModel,
-                               UserResponseModel)
+from models.user_model import (
+    CreateUserRequestModel,
+    UpdateUserRequestModel,
+    UserRequestModel,
+    UserResponseForAdminModel,
+    UserResponseModel,
+)
 from schemas.user_schema import UserSchema
 from services import auth_service as AuthService
 from services import user_service as UserService
@@ -25,9 +29,9 @@ async def get_all_user(
     user_request: UserRequestModel = Depends(),
     junction_type: str = Query(default="AND"),
     db: Session = db_dependency,
-    # user_token: UserSchema = Depends(
-    #     AuthService.get_token_interceptor(allow_user=True)
-    # ),
+    user_token: UserSchema = Depends(
+        AuthService.get_token_interceptor(allow_user=True)
+    ),
 ):
     """Endpoint to retrive infomation of all users. Any user can do this action
 
@@ -42,6 +46,29 @@ async def get_all_user(
     """
     users = UserService.get_all_users(db, user_request, junction_type)
     return users
+
+
+@router.get(
+    "/my-info", status_code=status.HTTP_200_OK, response_model=UserResponseModel
+)
+async def get_my_info(
+    db: Session = db_dependency,
+    user_token: UserSchema = Depends(
+        AuthService.get_token_interceptor(allow_user=True)
+    ),
+):
+    """Endpoint to retrive infomation of one user by their ID. Any user can do this action
+
+    Args:
+        user_id (UUID): The ID of the needed user
+        db (Session, optional): Database Session. Defaults to db_dependency.
+        user_token (UserSchema, optional): JWT token for authentication and authorization. Allow any user who has logged in
+
+    Returns:
+        UserResponseModel: User infomation
+    """
+    user = UserService.get_one_user(db, "id", user_token.id)
+    return user
 
 
 @router.get(

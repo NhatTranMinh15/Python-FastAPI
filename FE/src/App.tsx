@@ -1,22 +1,10 @@
-import { Col, Container, Row } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import "./App.css"
+import { LogInComponent } from './components/LogInComponent'
 function App() {
     return (
         <Container>
-            <Row>
-                <Col>
-                    1
-                </Col>
-                <Col>
-                    2
-                </Col>
-                <Col>
-                    3
-                </Col>
-                <Col>
-                    4
-                </Col>
-            </Row>
+            <LogInComponent></LogInComponent>
         </Container>
     )
 }
