@@ -13,7 +13,6 @@ import { Sidebar } from './components/Sidebar.tsx';
 import { TaskComponent } from './components/TaskComponent.tsx';
 import { UserComponent } from './components/UserComponent.tsx';
 import './index.css';
-import { TaskDetailComponent } from './components/TaskDetailComponent.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -32,7 +31,7 @@ createRoot(document.getElementById('root')!).render(
                                 <Route path='/' element={<App />} />
                                 <Route path='/user' element={<UserComponent />} />
                                 <Route path='/task' element={<TaskComponent />} />
-                                <Route path='/task/*' element={<TaskDetailComponent/>}/>
+                                <Route path='/task/:id' element={<TaskComponent />} />
                                 <Route path='/company' element={<CompanyComponent />} />
 
                                 <Route path='/*' element={<Error />} />

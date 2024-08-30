@@ -6,7 +6,15 @@ import { TaskParamModel, TaskResponseModel } from "../models/TaskModel";
 
 
 export const getTaskUrl = (params: TaskParamModel) => API + "/tasks" + buildParam(params);
+export const getOneTaskUrl = (id: string) => { return API + "/tasks/" + id; };
+export const getOneTask = async (url: string) => {
+    message.loading({ content: 'Loading Task Detail...', key: 'loadingTask', duration: 0 });
+    const response = await axios.get(url, axiosConfig())
+    const data: TaskResponseModel = response.data;
+    message.destroy('loadingTask')
+    return data
 
+}
 export const taskFetcher = async (url: string) => {
     message.loading({ content: 'Loading Tasks...', key: 'loadingTasks', duration: 0 });
     const response = await axios.get(url, axiosConfig())
@@ -27,3 +35,5 @@ function buildParam(params: TaskParamModel) {
         + (params.size ? "size=" + params.size : "size=15&")
     return param;
 }
+
+export const deleteTask = async (id: string) => axios.delete(API + "/tasks/" + id, axiosConfig())

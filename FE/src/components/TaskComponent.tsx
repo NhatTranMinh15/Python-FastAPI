@@ -1,11 +1,14 @@
 import useMessage from "antd/es/message/useMessage";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import { TaskModel, TaskParamModel } from "../models/TaskModel";
 import { getTaskUrl, taskFetcher } from "../services/TaskService";
 import { Button, Col, Form, Row, Table } from "react-bootstrap";
 import { message } from "antd";
 import { PaginationComponent } from "./PaginationComponent";
+import { useNavigate, useParams } from "react-router-dom";
+import { TaskDetailComponent } from "./TaskDetailComponent";
+
 const headers = [{ name: "ID", isCurrentlySorted: false },
 { name: "Summary", isCurrentlySorted: false },
 { name: "Description", isCurrentlySorted: false },
@@ -17,9 +20,19 @@ const headers = [{ name: "ID", isCurrentlySorted: false },
 ]
 
 export const TaskComponent = () => {
-    const [collapse, setCollapse] = useState(true)
+    const navigate = useNavigate()
     const [messageApi, contextHolder] = useMessage();
-
+    const [collapse, setCollapse] = useState(true)
+    const { id } = useParams();
+    const [show, setShow] = useState(false);
+    const modalData = useRef<string | undefined>(id ? id : undefined)
+    const handleClose = () => { setShow(false); navigate("/task") };
+    const handleShow = () => setShow(true);
+    useEffect(() => {
+        if (id) {
+            handleShow()
+        }
+    }, [id])
     const [param, setParam] = useState<TaskParamModel>({
         id: "",
         user_id: "",
@@ -32,21 +45,19 @@ export const TaskComponent = () => {
         size: 15
     });
     const handleSetParam = (name: string, value: string) => {
-        console.log(name, value);
-
         setParam((p) => ({ ...p, [name]: value }));
 
         if (name !== "page") {
             setParam((p) => ({ ...p, page: 0 }));
         }
     };
-    const { data, isLoading } = useSWR(getTaskUrl(param), taskFetcher, {
+    const { data, isLoading, mutate } = useSWR(getTaskUrl(param), taskFetcher, {
         onError: () => {
             messageApi.error("Fail to Load Tasks")
             message.destroy("loadingTasks")
         },
         shouldRetryOnError: false,
-        revalidateOnFocus: false,
+        // revalidateOnFocus: false,
     })
 
     const task: TaskModel[] = []
@@ -64,6 +75,11 @@ export const TaskComponent = () => {
             task.push(t)
         })
     }
+    function handleRowClick(data: TaskModel) {
+        modalData.current = data.id
+        navigate("/task/" + data.id)
+    }
+
     return (
         <div style={{ paddingTop: "10px" }}>
             {contextHolder}
@@ -106,7 +122,7 @@ export const TaskComponent = () => {
                                 <tbody style={{ maxWidth: "100%" }}>
                                     {task?.map((data: TaskModel, index) => (
                                         <tr key={index} onClick={() => {
-                                            console.log(data.id);
+                                            handleRowClick(data)
                                         }}>
                                             {
                                                 Object.entries(data).map(([key, value], idx) => (
@@ -116,9 +132,6 @@ export const TaskComponent = () => {
                                                 )
                                                 )
                                             }
-                                            <td className='last-cell'>
-                                                BUTTON
-                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -130,6 +143,7 @@ export const TaskComponent = () => {
                     }
                 </>
             }
+            <TaskDetailComponent show={show} handleClose={handleClose} id={modalData.current} mutate = {mutate} />
         </div >
     );
 }
