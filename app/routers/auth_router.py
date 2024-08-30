@@ -32,6 +32,6 @@ async def login(
     """
     user = AuthService.authenticate_user(db, form_data.username, form_data.password)
     return {
-        "access_token": AuthService.create_access_token(user, timedelta(minutes=10)),
+        "access_token": AuthService.create_access_token(user, timedelta(minutes=60)),
         "token_type": "bearer",
     }
