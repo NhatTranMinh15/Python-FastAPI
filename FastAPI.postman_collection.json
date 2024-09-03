@@ -1,0 +1,830 @@
+{
+	"info": {
+		"_postman_id": "0de3f251-424a-4338-a876-4de1061ae4c1",
+		"name": "FastAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37779888"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "get_all_user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/users?junction_type=OR",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "test",
+									"disabled": true
+								},
+								{
+									"key": "first_name",
+									"value": "Test",
+									"disabled": true
+								},
+								{
+									"key": "last_name",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "junction_type",
+									"value": "OR"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "100",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_one_user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/users/:user_id",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users",
+								":user_id"
+							],
+							"query": [
+								{
+									"key": "join",
+									"value": "true",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "940f38f3-110a-4ffb-9b78-24eb5c639c22"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"i\", Number.parseInt(pm.globals.get(\"i\")) + 1)\r",
+									"Number.parseInt(pm.globals.get(\"i\")) + 1"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"testUser{{i}}@mail.com\",\r\n    \"username\": \"testUser{{i}}\",\r\n    \"first_name\": \"Test\",\r\n    \"last_name\": \"User{{i}}\",\r\n    \"hashed_password\": \"admin\",\r\n    // \"company_id\": \"bafe0bf5-735c-4df8-916b-198c439964ee\",\r\n    \"is_admin\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/users",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_user",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"khadijah_martin\",\r\n    // \"first_name\": \"Test\",\r\n    \"last_name\": \"UpdateSecond\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/users/:user_id",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "940f38f3-110a-4ffb-9b78-24eb5c639c22"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/users/:user_id",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "940f38f3-110a-4ffb-9b78-24eb5c639c22"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "de_activate_user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/users/:user_id?action=activate",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users",
+								":user_id"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "activate"
+								}
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "a3ed4d75-9572-4afb-b274-f30757c12b5b"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-my-info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/users/my-info",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users",
+								"my-info"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "get-all-companies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/companies",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"companies"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "mode",
+									"value": "HYBRID",
+									"disabled": true
+								},
+								{
+									"key": "mode",
+									"value": "UNKNOWN",
+									"disabled": true
+								},
+								{
+									"key": "junction_type",
+									"value": "OR",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-one-company",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/companies/:company_id",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"companies",
+								":company_id"
+							],
+							"variable": [
+								{
+									"key": "company_id",
+									"value": "09d0e82f-ff05-47d3-8977-d6f848358d50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-company",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Create Company\",\r\n    \"description\": \"Company Description 1\",\r\n    \"mode\": \"HYBRID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/companies",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rate-company",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"98d5835b-f249-42b6-ad31-19dd14d04157\",\r\n    \"rating\": 3.0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/companies/rate",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"companies",
+								"rate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-company",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"update company\",\r\n    \"description\": \"update descriptoin\",\r\n    \"mode\": \"HYBRID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/companies/:company_id",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"companies",
+								":company_id"
+							],
+							"variable": [
+								{
+									"key": "company_id",
+									"value": "98d5835b-f249-42b6-ad31-19dd14d04157"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove-user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"company_id\":\"f4a30814-ce43-4c33-8dd9-058d0023050a\",\r\n    \"user_id\": \"3b1f9217-d527-4246-b1b1-9aeb241dbfc2\",\r\n    \"action\":\"REMOVE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/companies/user",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"companies",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add-user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"company_id\":\"f4a30814-ce43-4c33-8dd9-058d0023050a\",\r\n    \"user_id\": \"3b1f9217-d527-4246-b1b1-9aeb241dbfc2\",\r\n    \"action\":\"ADD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/companies/user",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"companies",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-company",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/companies/:company_id",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"companies",
+								":company_id"
+							],
+							"variable": [
+								{
+									"key": "company_id",
+									"value": "a07ca2cf-b366-4ddb-8c06-e15bd9416d5f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-my-company",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/companies/my-company",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"companies",
+								"my-company"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "get-all-task",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/tasks?all=true",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "priority",
+									"value": "LOW",
+									"disabled": true
+								},
+								{
+									"key": "priority",
+									"value": "HIGHEST",
+									"disabled": true
+								},
+								{
+									"key": "summary",
+									"value": "Train",
+									"disabled": true
+								},
+								{
+									"key": "junction_type",
+									"value": "OR",
+									"disabled": true
+								},
+								{
+									"key": "created_to",
+									"value": "2024-08-27 13:34:00.565748",
+									"disabled": true
+								},
+								{
+									"key": "user_id",
+									"value": "fb302de4-95b6-4a48-b1e5-65f96d37f06a",
+									"disabled": true
+								},
+								{
+									"key": "all",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-one-task",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/tasks/:task_id",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"tasks",
+								":task_id"
+							],
+							"variable": [
+								{
+									"key": "task_id",
+									"value": "0a48005e-bfe4-4002-9c39-b70626da063c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    //all optional\r\n    \"summary\": \"insert test\",\r\n    \"description\": \"description\",\r\n    // \"user_id\": \"01fbdccb-6d9d-4910-bf1f-cec1e1cd013c\",\r\n    \"priority\": \"LOW\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/tasks",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-task",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    //all optional\r\n    \"summary\": \"Updated Task\"\r\n    // \"description\": \"description\",\r\n    // \"priority\": \"HIGHEST\"\r\n    // \"user_id\": \"01fbdccb-6d9d-4910-bf1f-cec1e1cd013c\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/tasks/:task_id",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"tasks",
+								":task_id"
+							],
+							"query": [
+								{
+									"key": "r",
+									"value": "true",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "task_id",
+									"value": "0a48005e-bfe4-4002-9c39-b70626da063c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-task",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/tasks/:task_id",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"tasks",
+								":task_id"
+							],
+							"variable": [
+								{
+									"key": "task_id",
+									"value": "0a48005e-bfe4-4002-9c39-b70626da063c"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the response body to get the access token\r",
+							"var jsonData = pm.response.json();\r",
+							"// Save the access token to a variable named jwt_token\r",
+							"pm.globals.set(\"jwt_token\", jsonData.access_token);\r",
+							"pm.environment.set(\"jwt_token\", jsonData.access_token);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/auth/login",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the response body to get the access token\r",
+							"var jsonData = pm.response.json();\r",
+							"// Save the access token to a variable named jwt_token\r",
+							"pm.globals.set(\"jwt_token\", jsonData.access_token);\r",
+							"pm.environment.set(\"jwt_token\", jsonData.access_token);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/auth/login",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
