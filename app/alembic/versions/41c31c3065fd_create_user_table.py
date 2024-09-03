@@ -76,7 +76,7 @@ def upgrade() -> None:
                 "first_name": "First",
                 "last_name": "User",
                 "hashed_password": bcrypt.hash("password"),  # password
-                "is_admin": True,
+                "is_admin": False,
             },
         ],
     )
