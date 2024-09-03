@@ -49,7 +49,7 @@ async def get_async_db_context():
 engine = create_engine(settings.SQLALCHEMY_DATABASE_URL)
 async_engine = create_async_engine(settings.SQLALCHEMY_DATABASE_URL_ASYNC)
 
-MetaData().create_all(engine)
+metadata = MetaData().create_all(engine)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 AsyncSessionLocal = async_sessionmaker(async_engine, autocommit=False, autoflush=False)
