@@ -12,10 +12,9 @@ from random import random, randrange
 from typing import Sequence, Union
 
 import sqlalchemy as sa
+from alembic import op
 from passlib.context import CryptContext
 from services.name_generator import name_gen
-
-from alembic import op
 
 # revision identifiers, used by Alembic.
 revision: str = "41c31c3065fd"
@@ -70,7 +69,15 @@ def upgrade() -> None:
                 "last_name": "Admin",
                 "hashed_password": "$2b$12$a2m15MlDX9IqkUfUmd1f6./6XdnnVIKGJslXA9oRe8XqkeC9SgBAW",  # admin
                 "is_admin": True,
-            }
+            },
+            {
+                "email": "user@mail.com",
+                "username": "user",
+                "first_name": "First",
+                "last_name": "User",
+                "hashed_password": bcrypt.hash("password"),  # password
+                "is_admin": True,
+            },
         ],
     )
     data = []
@@ -82,7 +89,7 @@ def upgrade() -> None:
             "username": username,
             "first_name": first_name,
             "last_name": last_name,
-            "hashed_password": password,  # email
+            "hashed_password": password,  # password
             "is_admin": False if random() < 0.9 else True,
         }
         print(f"Adding user {i+1} of 100")
