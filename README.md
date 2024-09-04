@@ -57,3 +57,22 @@ cd app #if you are not in `app` directory
 uvicorn main:app --reload
 ```
 This will start the server on http://127.0.0.1:8000
+
+## Import Postman API Collection
+# Prerequisites
+- Postman installed on your machine. You can download it from Postman's official website.
+# Steps to Import a Collection
+1. **Open Postman**:
+   Launch the Postman application on your computer.
+2. **Click on the Import Button**:
+   In the top left corner of the Postman interface, click on the `Import` button.
+3. **Choose Import Method**:
+- **Drop File**
+  Drag and drop the API collection `.json` file to the import window.
+- **Select File**
+  Click on `Select Files`, browse to the location of the collection file, select it, and click `Open`.  
+4. **Verify the Import**:
+   Once the import is complete, you should see the imported collection in the `Collections` tab on the left sidebar of Postman.
+# Additional Resources
+- [Postman Documentation](https://learning.postman.com/docs/getting-started/importing-and-exporting/importing-data/)
+
