@@ -134,7 +134,7 @@ def update_user(
     user: UserSchema = get_one_user(db, "id", user_id)
 
     if user_token.id != user.id:
-        if not user.is_admin:
+        if not user_token.is_admin:
             raise ForbiddenException(
                 "You do not have permission to change this user infomation"
             )
@@ -191,9 +191,8 @@ def delete_user(db: Session, user_id: UUID, user_token: UserSchema):
         ForbiddenException:
     """
     user: UserSchema = get_one_user(db, "id", user_id)
-
     if user_token.id != user.id:
-        if not user.is_admin:
+        if not user_token.is_admin:
             raise ForbiddenException("You do not have permission to delete this user")
     db.delete(user)
     db.commit()
