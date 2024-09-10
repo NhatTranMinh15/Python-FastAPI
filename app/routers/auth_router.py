@@ -12,7 +12,7 @@ from services import auth_service as AuthService
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
-@router.post("/login")
+@router.post("/token")
 async def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = db_dependency,
