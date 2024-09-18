@@ -9,7 +9,7 @@ export const login = async (data: LogInModel) => {
     bodyFormData.append('password', data.password);
 
     message.loading({ content: 'Logging in...', key: 'login' });
-    const response = await axios.post(`${API}/auth/login`, bodyFormData)
+    const response = await axios.post(`${API}/auth/token`, bodyFormData)
     message.destroy('login')
     return response
 };
@@ -25,3 +25,8 @@ export const changePassword = async (pswdData: ChangePasswordModel) => {
     message.destroy('changePassword');
     return response
 };
+
+export const checkToken = async (token: string) => {
+    const response = await axios.post(`${API}/auth/check`, token);
+    return response
+}
