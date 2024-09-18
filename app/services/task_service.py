@@ -67,6 +67,12 @@ def get_all_tasks(
         query = query.filter(or_(*conditions))
     elif junction_type == "AND":
         query = query.filter(and_(*conditions))
+
+    order_column = getattr(TaskSchema, task_request.order_by)
+    if task_request.order_dir:
+        order_column = order_column.desc()
+    query = query.order_by(order_column)
+
     return paginate(
         db, query, params=Params(size=task_request.size, page=task_request.page)
     )

@@ -1,6 +1,7 @@
 """Task Model"""
 
 from datetime import datetime
+from enum import Enum
 from typing import List, Optional
 from uuid import UUID
 
@@ -18,6 +19,18 @@ class TaskModel(BaseModel):
     description: str
     status: Status = Field(default=Status.OPEN)
     priority: Priority = Field(default=Priority.MEDIUM)
+
+
+class OrderBy(str, Enum):
+    """_summary_
+
+    Args:
+        str (_type_): _description_
+        Enum (_type_): _description_
+    """
+    id = "id"
+    summary = "summary"
+    created_at = "created_at"
 
 
 class TaskRequestModel(BaseModel):
@@ -45,6 +58,8 @@ class TaskRequestModel(BaseModel):
     all: bool = False
     page: int = 1
     size: int = 15
+    order_by: OrderBy = OrderBy.id
+    order_dir: bool = False
 
 
 class CreateTaskRequestModel(BaseModel):
