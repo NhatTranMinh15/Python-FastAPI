@@ -6,12 +6,14 @@ import { API, axiosConfig } from "../utils/Config";
 
 
 export const getUserUrl = (params: UserParamModel) => API + "/users" + buildParam(params);
+export const getUserUrlWithParam = (params: string) => API + "/users" + params;
 
 export const userFetcher = async (url: string) => {
-    message.loading({ content: 'Loading Users...', key: 'loadingUsers', duration: 0 });
+    // message.loading({ content: 'Loading Users...', key: 'loadingUsers', duration: 0 });
+    await simulateLongApiCall();
     const response = await axios.get(url, axiosConfig())
-    const data: PageResponseModel<UserModel> = response.data;    
-    message.destroy('loadingUsers')
+    const data: PageResponseModel<UserModel> = response.data;
+    // message.destroy('loadingUsers')
     return data;
 }
 function buildParam(params: UserParamModel) {
@@ -24,3 +26,11 @@ function buildParam(params: UserParamModel) {
         + (params.size ? "size=" + params.size : "")
     return param;
 }
+const simulateLongApiCall = (): Promise<string> => {
+    const duration = Math.floor((Math.random() * 1000) + 1);
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve("API call completed");
+        }, duration);
+    });
+};
