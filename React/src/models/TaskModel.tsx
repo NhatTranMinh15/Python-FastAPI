@@ -12,7 +12,7 @@ export enum PriorityColor {
     HIGHEST = "red",
     HIGH = "orange",
     MEDIUM = "yellow",
-    LOW = "light-green",
+    LOW = "light-blue",
     LOWEST = "green"
 }
 
@@ -24,8 +24,8 @@ export enum Status {
     APPROVED = "APPROVED",
     CANCELLED = "CANCELLED",
     COMPLETED = "COMPLETED",
-    ON_HOLD = "ON HOLD",
-    PENDING_REVIEW = "PENDING REVIEW",
+    ON_HOLD = "ON_HOLD",
+    PENDING_REVIEW = "PENDING_REVIEW",
     DEFERRED = "DEFERRED",
     BLOCKED = "BLOCKED",
     READY_FOR_TESTING = "READY_FOR_TESTING",
@@ -37,8 +37,8 @@ export enum Status {
     WAITING_FOR_INPUT = "WAITING_FOR_INPUT"
 }
 
-export const StatusMap: { [key in Status]: string } = {
-    [Status.OPEN]: "gray",
+export const StatusColor: { [key in Status]: string } = {
+    [Status.OPEN]: "light-gray",
     [Status.TO_DO]: "yellow",
     [Status.IN_PROGRESS]: "green",
     [Status.IN_REVIEW]: "blue",
@@ -54,7 +54,7 @@ export const StatusMap: { [key in Status]: string } = {
     [Status.FAILED_TESTING]: "red",
     [Status.READY_FOR_DEPLOYMENT]: "green",
     [Status.DEPLOYED]: "green",
-    [Status.ARCHIVED]: "gray",
+    [Status.ARCHIVED]: "light-gray",
     [Status.WAITING_FOR_INPUT]: "yellow"
 };
 
@@ -81,13 +81,14 @@ export interface TaskModel {
 }
 
 export interface TaskParamModel {
-    id: string | undefined,
-    user_id: string | undefined,
-    summary: string | undefined,
-    description: string | undefined,
-    created_from: string,
-    created_to: string,
-    all: boolean,
+    [key: string]: string | number | undefined | null; // Add an index signature to support dynamic property access
+    id: string | undefined | null,
+    user_id: string | undefined| null,
+    summary: string | undefined| null,
+    description: string | undefined| null,
+    created_from: string| null,
+    created_to: string| null,
+    all: string | "true" | "false",
     page: number,
     size: number
 }

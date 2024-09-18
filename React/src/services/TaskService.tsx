@@ -6,23 +6,25 @@ import { TaskParamModel, TaskResponseModel } from "../models/TaskModel";
 
 
 export const getTaskUrl = (params: TaskParamModel) => API + "/tasks" + buildParam(params);
+export const getTaskUrlWithParam = (params:string) => API + "/tasks" + params;
 export const getOneTaskUrl = (id: string) => { return API + "/tasks/" + id; };
+
 export const getOneTask = async (url: string) => {
-    message.loading({ content: 'Loading Task Detail...', key: 'loadingTask', duration: 0 });
+    // message.loading({ content: 'Loading Task Detail...', key: 'loadingTask', duration: 0 });
     const response = await axios.get(url, axiosConfig())
     const data: TaskResponseModel = response.data;
-    message.destroy('loadingTask')
+    // message.destroy('loadingTask')
     return data
-
 }
 export const taskFetcher = async (url: string) => {
-    message.loading({ content: 'Loading Tasks...', key: 'loadingTasks', duration: 0 });
+    // message.loading({ content: 'Loading Tasks...', key: 'loadingTasks', duration: 0 });
     const response = await axios.get(url, axiosConfig())
     const data: PageResponseModel<TaskResponseModel> = response.data;
-    message.destroy('loadingTasks')
+    // message.destroy('loadingTasks')
     return data;
 }
-function buildParam(params: TaskParamModel) {
+
+export function buildParam(params: TaskParamModel) {
     const param = "?"
         + (params.id ? "id=" + params.id + "&" : "")
         + (params.summary ? "summary=" + params.summary + "&" : "")
