@@ -1,75 +1,88 @@
-.nav-item {
-    margin-top: 10px;
-    margin-bottom: 10px;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --background: #ffffff;
+    --foreground: #171717;
 }
 
-.nav-link {
-    /* text-align: center; */
-    /* font-weight: bold; */
-    font-size: larger;
-    color: black;
-}
-
-.nav-link:hover {
-    color: white;
-    background-color: black;
-}
-
-.nav-item:hover .nav-icon {
-    color: white;
-}
-
-.nav-icon {
-    margin-right: 10px;
-    color: black;
-}
-
-@media (max-width: 768px) {
-    .nav-link {
-        width: 0;
-        overflow: hidden;
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
     }
 }
 
-table {
-    font-family: arial, sans-serif;
-    width: 100%;
-    table-layout: auto;
-    min-width: fit-content;
-    overflow-x: auto;
-}
-
-.table-header {
-    display: flex;
-    flex-direction: row;
-    padding: 0;
-}
-
-.header-border {
-    border-bottom: 2px solid black;
-}
-
-.collapsed-td {
-    max-width: 10vw;
-}
-
-tr:hover {
-    cursor: pointer;
+body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 
-.task-detail-view {
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    /* max-width: 600px; */
-    margin: auto;
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 0 0% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 0 0% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 0 0% 3.9%;
+        --primary: 0 0% 9%;
+        --primary-foreground: 0 0% 98%;
+        --secondary: 0 0% 96.1%;
+        --secondary-foreground: 0 0% 9%;
+        --muted: 0 0% 96.1%;
+        --muted-foreground: 0 0% 45.1%;
+        --accent: 0 0% 96.1%;
+        --accent-foreground: 0 0% 9%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 0 0% 89.8%;
+        --input: 0 0% 89.8%;
+        --ring: 0 0% 3.9%;
+        --chart-1: 12 76% 61%;
+        --chart-2: 173 58% 39%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+        --radius: 0.5rem;
+    }
+
+    .dark {
+        --background: 0 0% 3.9%;
+        --foreground: 0 0% 98%;
+        --card: 0 0% 3.9%;
+        --card-foreground: 0 0% 98%;
+        --popover: 0 0% 3.9%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 0 0% 98%;
+        --primary-foreground: 0 0% 9%;
+        --secondary: 0 0% 14.9%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 0 0% 14.9%;
+        --muted-foreground: 0 0% 63.9%;
+        --accent: 0 0% 14.9%;
+        --accent-foreground: 0 0% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 0 0% 14.9%;
+        --input: 0 0% 14.9%;
+        --ring: 0 0% 83.1%;
+        --chart-1: 220 70% 50%;
+        --chart-2: 160 60% 45%;
+        --chart-3: 30 80% 55%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 340 75% 55%;
+    }
 }
 
 .status,
@@ -87,7 +100,8 @@ tr:hover {
     background-color: #d9534f;
     color: white;
 }
-.red{
+
+.red {
     background-color: red;
     color: #ffffff;
     /* Red */
@@ -100,14 +114,14 @@ tr:hover {
 }
 
 .yellow {
-    background-color: rgb(225, 225, 13);
+    background-color: rgb(255, 255, 87);
     color: #000000;
     /* Yellow */
 }
 
-.light-green {
-    background-color: #07adb6;
-    color: white;
+.light-blue {
+    background-color: #60f0f7;
+    color: black;
     /* LightGreen */
 }
 
@@ -117,25 +131,72 @@ tr:hover {
     /* Green */
 }
 
-.gray{
+.gray {
     background-color: gray;
     color: white;
 }
-.blue{
-    background-color: #07adb6;
-    color: white;
+
+.light-gray {
+    background-color: lightgray;
+    color: black;
 }
 
-.main-content h2 {
-    margin-top: 20px;
+.blue {
+    background-color: #00e4f0;
+    color: black;
+}
+.outline-green{
+    border: solid 2px;
+    border-color: #008000;
+    background-color: transparent;
+    color: black;
+}
+.outline-red{
+    border: solid 2px;
+    border-color: #ff0000;
+    background-color: transparent;
+    color: black;
 }
 
-.metadata,
-.actions,
-.activity-log {
-    margin-top: 20px;
+.side_li:hover {
+    @apply transition border-2 rounded-md border-white border-dashed cursor-pointer bg-zinc-700 text-white duration-200
 }
 
-.actions button {
-    margin-right: 10px;
+.pagination-button {
+    @apply py-2 px-4 border bg-transparent border-y-zinc-400 border-l-zinc-400
+}
+
+.pagination-button:disabled {
+    @apply bg-slate-300 cursor-not-allowed opacity-50 border-l-zinc-400
+}
+
+.pagination-button:hover:enabled {
+    @apply bg-zinc-300
+}
+
+select {
+    @apply rounded-lg
+}
+
+td {
+    @apply table-cell border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400
+}
+
+th {
+    @apply table-cell border-b dark:border-slate-600 font-bold p-4 pt-0 pb-3 text-black dark:text-slate-200 text-center
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.hoverable:hover {
+    @apply bg-slate-200 cursor-pointer
+}
+
+.user-link{
+
+}
+.user-link:hover{
+    @apply border-b border-black
 }
