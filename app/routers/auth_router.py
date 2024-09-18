@@ -1,8 +1,9 @@
 """Authentication Route"""
 
 from datetime import timedelta
+from typing import Any
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Body, Depends, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
@@ -11,6 +12,18 @@ from services import auth_service as AuthService
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
+
+@router.post("/check")
+async def check_token(token: str = Body()):
+    """
+    
+    Args:
+    
+    Returns:
+    """
+    result = AuthService.check_token_validity(token)
+    return result
+    
 
 @router.post("/token")
 async def login(

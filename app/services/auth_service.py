@@ -13,7 +13,7 @@ from typing import Optional
 from uuid import UUID
 
 from fastapi import Depends
-from jose import JWTError, jwt
+from jose import ExpiredSignatureError, JWTError, jwt
 from sqlalchemy.orm import Session
 
 from config.settings import JWT_ALGORITHM, JWT_SECRET, oa2_bearer
@@ -127,3 +127,19 @@ def get_token_interceptor(allow_user: bool = False):
         return token_interceptor(token, allow_user)
 
     return dependency
+
+
+def check_token_validity(token: str):
+    """_summary_
+
+    Args:
+        token (str): _description_
+
+    Raises:
+        UnauthorizedException: _description_
+    """
+    try:
+        jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        return 1
+    except (JWTError, ExpiredSignatureError) as j:
+        return 0
