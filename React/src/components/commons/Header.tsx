@@ -1,33 +1,26 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Navbar } from "./Navbar";
-export const Header = () => {
-    const navigate = useNavigate()
+import { DarkThemeToggle } from "flowbite-react";
+import '../../../public/css/header.css';
+import AuthInfoComponent from "../auth/AuthInfoComponent";
 
-    const logout = () => {
-        sessionStorage.removeItem('jwt_token')
-        navigate('/')
-    }
+export const Header = () => {
+    // console.log('render header');
+
     return (
-        <div className="flex min-h-16">
-            <div className="logo basis-1/2 sm:basis-4/12 md:basis-3/12  flex justify-center items-center">
-                <img src={"/images/icon.png"} alt={"TaskMane Logo"} width={50} height={50}></img>
-                <Link to={'/'} className="ml-3 font-mono text-xl text-stone-600 antialiased font-bold text-center">
+        <div className="header">
+            <div className="logo-section ">
+                <img src={"../favicon.ico"} alt={"TaskMane Logo"} width={50} height={50} />
+                <Link to={'/'} className="home-link">
                     TaskMane
                 </Link>
             </div>
-            <div className="between_space flex basis-1/12 sm:basis-7/12 md:basis-7/12 lg:basis-8/12 align-middle justify-center">
+            <div className="navbar-section ">
                 <Navbar></Navbar>
             </div>
-            <div className="auth basis-5/12 sm:basis-2/12  flex justify-center items-center">
-                {sessionStorage.getItem('jwt_token') ?
-                    <button className="py-2 px-5 border rounded-lg bg-emerald-400 hover:underline text-white hover:bg-emerald-600 duration-150" onClick={() => { logout() }}>
-                        Logout
-                    </button>
-                    :
-                    <Link to={"/login"} className="py-2 px-5 border rounded-lg bg-emerald-400 hover:underline text-white hover:bg-emerald-600 duration-150">
-                        Login
-                    </Link>
-                }
+            <div className="auth-section ">
+                <AuthInfoComponent />
+                <DarkThemeToggle />
             </div>
         </div>
     );

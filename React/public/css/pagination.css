@@ -1,0 +1,16 @@
+.pagination-control-button, .pagination-button {
+    @apply py-2 px-4 border bg-transparent border-traditional-forest-green dark:text-white-smoke dark:bg-charleston-green
+}
+
+.pagination-button {
+    @apply hidden md:inline-block
+}
+
+.pagination-control-button:disabled, .pagination-button:disabled {
+    @apply bg-gray-400-opaque-40 dark:bg-slate-200-opaque-40 cursor-not-allowed;
+}
+
+.pagination-control-button:hover:enabled,
+.pagination-button:hover:enabled {
+    @apply bg-green-munsell
+}

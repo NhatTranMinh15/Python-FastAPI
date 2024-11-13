@@ -4,20 +4,20 @@ import { getUserUrlWithParam, userFetcher } from "../../services/UserService";
 import useMessage from "antd/es/message/useMessage";
 import { PaginationComponent } from "../commons/Pagination";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Badge, Button } from "flowbite-react";
 import { message } from "antd";
 import Loading from "../commons/Loading";
+import { SearchComponent } from "../commons/SearchComponent";
 
 
 const headers = [
-  { name: "ID", value: "id", isCurrentlySorted: false, colStyle: {}, hiddenOnSmall: false },
+  { name: "ID", value: "id", isCurrentlySorted: false, colStyle: {}, hiddenOnSmall: true },
   { name: "Email", value: "email", isCurrentlySorted: false, colStyle: {}, hiddenOnSmall: false },
   { name: "Username", value: "username", isCurrentlySorted: false, colStyle: {}, hiddenOnSmall: false },
   { name: "First Name", value: "first_name", isCurrentlySorted: false, colStyle: {}, hiddenOnSmall: false },
   { name: "Last Name", value: "last_name", isCurrentlySorted: false, colStyle: {}, hiddenOnSmall: false },
-  { name: "Is Admin", value: "is_admin", isCurrentlySorted: false, colStyle: {}, hiddenOnSmall: false },
-  { name: "Company ID", value: "company_id", isCurrentlySorted: false, colStyle: {}, hiddenOnSmall: false },
-  { name: "Created At", value: "created_at", isCurrentlySorted: false, colStyle: {}, hiddenOnSmall: false },
+  { name: "Is Admin", value: "is_admin", isCurrentlySorted: false, colStyle: {}, hiddenOnSmall: true },
+  { name: "Company ID", value: "company_id", isCurrentlySorted: false, colStyle: {}, hiddenOnSmall: true },
+  { name: "Created At", value: "created_at", isCurrentlySorted: false, colStyle: {}, hiddenOnSmall: true },
 ]
 const maxColLength = headers.length
 
@@ -52,13 +52,15 @@ export const UserComponent = () => {
   }
 
   function handleRowClick(data: UserModel) {
-    navigate(data.id)
+    if (!window.getSelection()?.toString()) {
+      navigate(data.id)
+    }
   }
 
   function switchValue(user: UserModel, value: string) {
     switch (value) {
       case "is_admin":
-        return <Badge className={"justify-center w-fit  " + (user.is_admin ? "outline-green" : "outline-red")}>{user.is_admin ? "True" : "False"}</Badge>
+        return <span className={"badge " + (user.is_admin ? "outline-green" : "outline-red")}>{user.is_admin ? "True" : "False"}</span>
       case "company_id":
         return user.company_id || "None"
       default:
@@ -69,12 +71,12 @@ export const UserComponent = () => {
   return (
     <>
       {contextHolder}
-      <div className="flex flex-row">
+      <div className="flex flex-col sm:flex-row">
         <div className="basis-1/2 p-2">
-
+          <button className="button button-green" onClick={() => { navigate("create") }}>Create New User</button>
         </div>
         <div className="basis-1/2 p-2">
-          <Button color={"green"} className="border border-green-500" onClick={() => { navigate("create") }}>Create New User</Button>
+          <SearchComponent placeholder={"Search User"} defaultValue = {searchParams.get("search") ?? ""} setParamsFunction={handleSetParam} style={""} className={""} />
         </div>
 
       </div>
@@ -83,7 +85,7 @@ export const UserComponent = () => {
           <thead className="table-header-group">
             <tr className="table-row">
               {headers?.map((h) => (
-                <th key={h.name} className={"table-cell header-border "} style={{ overflow: "hidden" }}>
+                <th key={h.name} className={"table-cell header-border " + (h.hiddenOnSmall ? "hidden md:table-cell" : "")} style={{ overflow: "hidden" }}>
                   {h.name.length > 0 ?
                     <div className={'table-header ' + (h.isCurrentlySorted ? "sorting-header" : "")}>
                       {h.name}
@@ -96,7 +98,7 @@ export const UserComponent = () => {
           </thead>
           <tbody className="table-row-group divide-y max-w-full">
             {users.map((user: UserModel) => (
-              <tr key={user.id} className="table-row hoverable" onClick={() => { handleRowClick(user) }}>
+              <tr key={user.id} className="table-row hoverable-row" onClick={() => { handleRowClick(user) }}>
                 {
                   headers.map((header) => (
                     <td key={header.value + " " + user.id} className={"truncate " + (header.hiddenOnSmall ? "hidden md:table-cell " : " ")} style={{ maxWidth: `${100 / maxColLength - 1}vw` }}>

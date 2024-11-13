@@ -15,6 +15,7 @@
     "axios": "^1.7.5",
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.5",
+    "fe": "file:",
     "flowbite": "^2.5.1",
     "flowbite-react": "^0.10.1",
     "formik": "^2.4.6",

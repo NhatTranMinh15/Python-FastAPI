@@ -1,19 +1,55 @@
 import { UserModel } from "./UserModel";
 
+export interface TaskModelShort {
+    [key: string]: string | undefined;
+    id: string,
+    summary: string,
+    description: string,
+    status: Status,
+    priority: Priority,
+    created_at: string,
+    user_id: string
+}
+
+export interface TaskModel {
+    [key: string]: string | UserModel;
+    id: string,
+    summary: string,
+    description: string,
+    status: Status,
+    priority: Priority,
+    created_at: string,
+    user: UserModel
+}
+
+export interface TaskParamModel {
+    [key: string]: string | number | undefined | null;
+    id: string | undefined | null,
+    user_id: string | undefined | null,
+    summary: string | undefined | null,
+    description: string | undefined | null,
+    created_from: string | null,
+    created_to: string | null,
+    all: string | "true" | "false",
+    page: number,
+    size: number
+}
+
+export interface CreateTaskModel {
+    [key: string]: string | undefined;
+    summary: string,
+    description: string,
+    status: Status,
+    priority: Priority,
+    user_id: string | undefined,
+}
+
 export enum Priority {
     HIGHEST = "HIGHEST",
     HIGH = "HIGH",
     MEDIUM = "MEDIUM",
     LOW = "LOW",
     LOWEST = "LOWEST"
-}
-
-export enum PriorityColor {
-    HIGHEST = "red",
-    HIGH = "orange",
-    MEDIUM = "yellow",
-    LOW = "light-blue",
-    LOWEST = "green"
 }
 
 export enum Status {
@@ -37,6 +73,14 @@ export enum Status {
     WAITING_FOR_INPUT = "WAITING_FOR_INPUT"
 }
 
+export enum PriorityColor {
+    HIGHEST = "red",
+    HIGH = "orange",
+    MEDIUM = "yellow",
+    LOW = "light-blue",
+    LOWEST = "green"
+}
+
 export const StatusColor: { [key in Status]: string } = {
     [Status.OPEN]: "light-gray",
     [Status.TO_DO]: "yellow",
@@ -57,38 +101,3 @@ export const StatusColor: { [key in Status]: string } = {
     [Status.ARCHIVED]: "light-gray",
     [Status.WAITING_FOR_INPUT]: "yellow"
 };
-
-export interface TaskResponseModel {
-    [key: string]: string | boolean | UserModel; // Add an index signature to support dynamic property access
-    id: string,
-    summary: string,
-    description: string,
-    status: Status,
-    priority: Priority,
-    created_at: string,
-    user: UserModel
-}
-
-export interface TaskModel {
-    [key: string]: string | boolean; // Add an index signature to support dynamic property access
-    id: string,
-    summary: string,
-    description: string,
-    status: Status,
-    priority: Priority,
-    created_at: string,
-    user_id: string
-}
-
-export interface TaskParamModel {
-    [key: string]: string | number | undefined | null; // Add an index signature to support dynamic property access
-    id: string | undefined | null,
-    user_id: string | undefined| null,
-    summary: string | undefined| null,
-    description: string | undefined| null,
-    created_from: string| null,
-    created_to: string| null,
-    all: string | "true" | "false",
-    page: number,
-    size: number
-}

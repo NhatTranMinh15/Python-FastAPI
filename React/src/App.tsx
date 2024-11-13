@@ -29,17 +29,11 @@ const children: RouteObject[] = [
     },
     {
         path: "/tasks/:id",
-        element: <TaskDetailComponent show={false} />
+        element: <TaskDetailComponent />
     },
     {
         path: "/companies",
         element: <CompanyComponent />,
-        children: [
-            {
-                path: ":id",
-                element: <CompanyComponent />
-            }
-        ]
     },
     {
         path: "/login",

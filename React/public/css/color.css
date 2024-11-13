@@ -1,0 +1,72 @@
+.status,
+.priority {
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+.status {
+    background-color: #f0ad4e;
+    color: white;
+}
+
+.priority {
+    background-color: #d9534f;
+    color: white;
+}
+
+.red {
+    background-color: red;
+    color: #ffffff;
+    /* Red */
+}
+
+.orange {
+    background-color: orange;
+    color: #ffffff;
+    /* Orange */
+}
+
+.yellow {
+    background-color: rgb(255, 255, 87);
+    color: #000000;
+    /* Yellow */
+}
+
+.light-blue {
+    background-color: #60f0f7;
+    color: black;
+    /* LightGreen */
+}
+
+.green {
+    background-color: #008000;
+    color: white;
+    /* Green */
+}
+
+.gray {
+    background-color: gray;
+    color: white;
+}
+
+.light-gray {
+    background-color: lightgray;
+    color: black;
+}
+
+.blue {
+    background-color: #00e4f0;
+    color: black;
+}
+
+.outline-green {
+    border: solid 2px;
+    border-color: #008000;
+    background-color: transparent;
+}
+
+.outline-red {
+    border: solid 2px;
+    border-color: #ff0000;
+    background-color: transparent;
+}

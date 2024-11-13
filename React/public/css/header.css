@@ -1,0 +1,41 @@
+
+.header {
+    @apply flex min-h-16 dark:bg-dark-lime-green duration-200;
+}
+
+.header .logo-section {
+    @apply flex basis-1/2 sm:basis-4/12 md:basis-3/12 justify-center items-center
+}
+
+.header .logo-section .home-link {
+    @apply antialiased ml-3 font-mono text-2xl text-stone-600 font-bold text-center
+}
+
+.header .logo-section .home-link {
+    @apply dark:text-white-smoke hover:dark:text-white-smoke duration-150
+}
+
+.header .navbar-section {
+    @apply flex basis-1/12 sm:basis-7/12 md:basis-7/12 lg:basis-8/12 align-middle justify-center
+}
+
+.header .navbar-section .navbar {
+    @apply hidden sm:flex flex-row sm:gap-1 md:gap-10 justify-center duration-200
+}
+
+.navbar .nav-li {
+    @apply p-2 px-5 my-3 border-2 border-transparent
+}
+
+/* dark */
+.navbar .nav-li {
+    @apply dark:text-white-smoke
+}
+
+.navbar .nav-li:hover {
+    @apply transition border-2 rounded-md border-white border-dashed cursor-pointer bg-zinc-700 text-white-smoke duration-200
+}
+
+.header .auth-section {
+    @apply flex basis-5/12 sm:basis-2/12 justify-center items-center gap-2
+}

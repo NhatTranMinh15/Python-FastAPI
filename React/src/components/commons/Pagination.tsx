@@ -1,6 +1,7 @@
 import { message } from "antd";
 import { FormEvent, MutableRefObject, useState } from "react";
 import { Popover } from "flowbite-react";
+import "../../../public/css/pagination.css"
 
 type Props = {
     currentPage: number;
@@ -10,11 +11,14 @@ type Props = {
     fixPageSize: boolean
     containerRef: MutableRefObject<HTMLDivElement | undefined> | undefined
 }
+
+const pages = [1, 5, 10, 15, 25, 50];
 export const PaginationComponent = ({ currentPage, totalPage, setParamsFunction, perPage, fixPageSize, containerRef }: Props) => {
+    // console.log("Render PaginationComponent");
+    
     const isFirstPage = currentPage === 1;
     const isLastPage = currentPage === totalPage;
     const [customPage, setCustomPage] = useState(currentPage);
-    console.log(perPage);
 
     const handlePageChange = (page: number) => {
         if (page === currentPage) {
@@ -41,24 +45,24 @@ export const PaginationComponent = ({ currentPage, totalPage, setParamsFunction,
         handlePageChange(customPage);
     }
 
-    const popover = (key: string) => {
+    const popover = (key: string) => {        
         return (
-            <Popover key={key} id="popover-basic" className="max-w-52 border border-black rounded-lg" content={
+            <Popover key={key} id="popover-basic" className="max-w-52 border border-traditional-forest-green rounded-lg" content={
                 <>
                     <div className="bg-gray-200 px-3 py-2 text-center dark:border-gray-600 dark:bg-gray-700">
                         <h3 id="default-popover" className="font-semibold text-gray-900 dark:text-white">
                             Choose Page
                         </h3>
                     </div>
-                    <div className="px-3 py-2">
+                    <div className="px-3 py-2 bg-white dark:bg-rich-black">
                         <form onSubmit={(e) => handleCustomPageSubmit(e)}>
-                            <input className="rounded-xl mr-2" type="number" min={1} max={totalPage} onChange={(e) => { setCustomPage(Number.parseInt(e.target.value)); }}></input>
-                            <button className="py-2 px-5 border hover:bg-zinc-300 rounded-xl" type="submit">Go</button>
+                            <input type="number" className="input rounded-xl mr-2 dark:bg-slate-500" min={1} max={totalPage} onChange={(e) => { setCustomPage(Number.parseInt(e.target.value)); }} />
+                            <button className="button button-green" type="submit">Go</button>
                         </form>
                     </div>
                 </>
             }>
-                <button className="pagination-button">...</button>
+                <button className="pagination-button font-bold">...</button>
             </Popover >
         )
     };
@@ -115,28 +119,24 @@ export const PaginationComponent = ({ currentPage, totalPage, setParamsFunction,
             <div className="w-fit">
                 {fixPageSize ? "" :
                     <div className="me-5 max-w-full min-w-12 w-fit text-left" >
-                        <form className="">
-                            <select value={perPage} style={{ width: "100%" }} onChange={(e) => { handlePerPageChange(e.target.value) }}>
-                                <option value="1" >1 / page</option>
-                                <option value="5" >5 / page</option>
-                                <option value="10" >10 / page</option>
-                                <option value="15" >15 / page</option>
-                                <option value="30" >30 / page</option>
-                                <option value="50" >50 / page</option>
-                                <option value="100" >100 / page</option>
-                            </select>
-                        </form>
+                        <select value={perPage} className="select-green" onChange={(e) => { handlePerPageChange(e.target.value) }}>
+                            {
+                                pages.map(p => (
+                                    <option key={p} value={p} >{p} / page</option>
+                                ))
+                            }
+                        </select>
                     </div>
                 }
             </div>
             <div className="">
-                <button className="pagination-button rounded-s-lg" disabled={isFirstPage || totalPage === 0} onClick={() => handlePageChange(1)}>First</button>
-                <button className="pagination-button" disabled={isFirstPage || totalPage === 0} onClick={() => handlePageChange(currentPage - 1)}>Previous</button>
+                <button className="pagination-control-button rounded-s-lg" disabled={isFirstPage || totalPage === 0} onClick={() => handlePageChange(1)}>First</button>
+                <button className="pagination-control-button" disabled={isFirstPage || totalPage === 0} onClick={() => handlePageChange(currentPage - 1)}>Previous</button>
 
                 {renderPageItems()}
 
-                <button className="pagination-button" disabled={isLastPage || totalPage === 0} onClick={() => handlePageChange(currentPage + 1)}>Next</button>
-                <button className="pagination-button rounded-e-lg border-r-zinc-400" disabled={isLastPage || totalPage === 0} onClick={() => handlePageChange(totalPage)}>Last</button>
+                <button className="pagination-control-button" disabled={isLastPage || totalPage === 0} onClick={() => handlePageChange(currentPage + 1)}>Next</button>
+                <button className="pagination-control-button rounded-e-lg" disabled={isLastPage || totalPage === 0} onClick={() => handlePageChange(totalPage)}>Last</button>
             </div>
         </div>
     );

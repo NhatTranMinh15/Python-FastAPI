@@ -1,29 +1,32 @@
-import { message } from "antd";
 import axios from "axios";
 import { PageResponseModel } from "../models/PageModel";
-import { API, axiosConfig } from "../utils/Config";
-import { TaskParamModel, TaskResponseModel } from "../models/TaskModel";
+import { axiosConfig, URL } from "../utils/Config";
+import { CreateTaskModel, TaskModel, TaskParamModel } from "../models/TaskModel";
 
-
-export const getTaskUrl = (params: TaskParamModel) => API + "/tasks" + buildParam(params);
-export const getTaskUrlWithParam = (params:string) => API + "/tasks" + params;
-export const getOneTaskUrl = (id: string) => { return API + "/tasks/" + id; };
+const taskURL = URL + "/tasks"
+export const getTaskUrl = (params: TaskParamModel) => taskURL + buildParam(params);
+export const getTaskUrlWithParam = (params: string) => taskURL + params;
+export const getOneTaskUrl = (id: string) => { return taskURL + "/" + id; };
 
 export const getOneTask = async (url: string) => {
-    // message.loading({ content: 'Loading Task Detail...', key: 'loadingTask', duration: 0 });
     const response = await axios.get(url, axiosConfig())
-    const data: TaskResponseModel = response.data;
-    // message.destroy('loadingTask')
+    const data: TaskModel = response.data;
     return data
 }
 export const taskFetcher = async (url: string) => {
-    // message.loading({ content: 'Loading Tasks...', key: 'loadingTasks', duration: 0 });
     const response = await axios.get(url, axiosConfig())
-    const data: PageResponseModel<TaskResponseModel> = response.data;
-    // message.destroy('loadingTasks')
+    const data: PageResponseModel<TaskModel> = response.data;
     return data;
 }
-
+export const createTask = async (data: CreateTaskModel) => {
+    const response = await axios.post(taskURL, data, axiosConfig());
+    return response
+}
+export const updateTask = async (id: string, remove_user: boolean = false, data: CreateTaskModel) => {
+    const url = `${taskURL}/${id}?remove_user=${remove_user}`
+    const response = await axios.put(url, data, axiosConfig());
+    return response
+}
 export function buildParam(params: TaskParamModel) {
     const param = "?"
         + (params.id ? "id=" + params.id + "&" : "")
@@ -38,4 +41,4 @@ export function buildParam(params: TaskParamModel) {
     return param;
 }
 
-export const deleteTask = async (id: string) => axios.delete(API + "/tasks/" + id, axiosConfig())
+export const deleteTask = async (id: string) => axios.delete(taskURL + "/" + id, axiosConfig())

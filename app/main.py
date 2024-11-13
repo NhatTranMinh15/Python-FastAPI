@@ -29,6 +29,7 @@ async def lifespan(app: FastAPI):
     except StopIteration:
         return
     count = (
+        # pylint: disable=not-callable
         db.query(func.count())
         .filter(getattr(UserSchema, "company_id").isnot(None))
         .scalar()
@@ -37,8 +38,8 @@ async def lifespan(app: FastAPI):
         users = db.scalars(select(UserSchema)).all()
         tasks = db.scalars(select(TaskSchema)).all()
         companies = db.scalars(select(CompanySchema)).all()
-        users_length = users.count()
-        companies_length = companies.count()
+        users_length = len(users)
+        companies_length = len(companies)
         for t in tasks:
             if random.random() > 0.3:
                 t.user = users[random.randrange(users_length)]
@@ -58,6 +59,7 @@ app = FastAPI(lifespan=lifespan)
 
 origins = [
     "http://localhost:5173",
+    "http://localhost:3000",
 ]
 
 app.add_middleware(

@@ -1,19 +1,16 @@
-import { message } from "antd";
 import axios from "axios";
 import { PageResponseModel } from "../models/PageModel";
 import { UserModel, UserParamModel } from "../models/UserModel";
-import { API, axiosConfig } from "../utils/Config";
+import { URL, axiosConfig } from "../utils/Config";
 
-
-export const getUserUrl = (params: UserParamModel) => API + "/users" + buildParam(params);
-export const getUserUrlWithParam = (params: string) => API + "/users" + params;
+const userURL = `${URL}/users`;
+export const getUserUrl = (params: UserParamModel) => `${userURL}${buildParam(params)}`;
+export const getUserUrlWithParam = (params: string) => `${userURL}${params}`;
 
 export const userFetcher = async (url: string) => {
-    // message.loading({ content: 'Loading Users...', key: 'loadingUsers', duration: 0 });
     await simulateLongApiCall();
     const response = await axios.get(url, axiosConfig())
     const data: PageResponseModel<UserModel> = response.data;
-    // message.destroy('loadingUsers')
     return data;
 }
 function buildParam(params: UserParamModel) {
@@ -30,7 +27,7 @@ const simulateLongApiCall = (): Promise<string> => {
     const duration = Math.floor((Math.random() * 1000) + 1);
     return new Promise((resolve) => {
         setTimeout(() => {
-            resolve("API call completed");
+            resolve("URL call completed");
         }, duration);
     });
 };

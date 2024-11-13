@@ -1,0 +1,53 @@
+.badge {
+    @apply flex h-fit items-center gap-1 font-semibold p-1 text-xs rounded px-2 py-0.5 justify-center w-fit text-black dark:text-white-smoke
+}
+
+.button {
+    @apply py-2 px-5 border rounded-lg
+}
+
+.button:hover:enabled {
+    @apply underline duration-150
+}
+
+.button:disabled {
+    @apply opacity-30
+}
+
+.button-green {
+    @apply bg-white-smoke text-traditional-forest-green border-traditional-forest-green
+}
+
+.button-green {
+    @apply dark:bg-traditional-forest-green dark:text-white-smoke
+}
+
+.button-green:hover {
+    @apply bg-emerald-200 dark:bg-green-600
+}
+
+/* Red button */
+.button-red {
+    @apply bg-white-smoke text-red-600 border-red-600
+}
+
+.button-red {
+    @apply dark:bg-red-600 dark:text-white-smoke
+}
+
+.button-red:hover {
+    @apply bg-red-200 dark:bg-red-500
+}
+
+/* Yellow button */
+.button-yellow {
+    @apply bg-white-smoke text-yellow-400 border-yellow-400
+}
+
+.button-yellow {
+    @apply dark:bg-yellow-600 dark:text-white-smoke
+}
+
+.button-yellow:hover {
+    @apply bg-yellow-100 dark:bg-yellow-500
+}

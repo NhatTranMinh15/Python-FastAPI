@@ -16,6 +16,8 @@ const validationSchema = Yup.object({
 });
 
 export const LoginComponent = () => {
+    // console.log("render login");
+
     const [messageApi, contextHolder] = message.useMessage();
     const navigate = useNavigate();
 
@@ -62,8 +64,8 @@ export const LoginComponent = () => {
         if (token) {
             const t = JSON.parse(token).access_token
             checkToken(t).then((response) => {
-                const result:number = response.data
-                if(result == 0){
+                const result: number = response.data
+                if (result == 0) {
                     sessionStorage.removeItem('jwt_token')
                     navigate('/login')
                 }
@@ -117,14 +119,14 @@ export const LoginComponent = () => {
                                 </Link>
                             </div>
                             <div className='flex justify-center'>
-                                <button type="submit" className="min-h-10 w-fit text-white bg-emerald-400 duration-150 hover:underline hover:bg-emerald-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-md px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                    Sign in
+                                <button type="submit" className="button button-green">
+                                    Login
                                 </button>
                             </div>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Doesn’t have an account yet? {" "}
                                 <Link to="/sign-up" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                                    Sign up
+                                    Register here
                                 </Link>
                             </p>
                         </form>

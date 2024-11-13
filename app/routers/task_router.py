@@ -110,7 +110,7 @@ async def create_task(
 async def update_task(
     task_id: UUID,
     task_request: CreateTaskRequestModel,
-    r: bool = False,
+    remove_user: bool = False,
     db: Session = db_dependency,
     user_token: UserSchema = Depends(
         AuthService.get_token_interceptor(allow_user=True)
@@ -129,7 +129,7 @@ async def update_task(
     Returns:
         TaskResponseModel: The updated details of the task.
     """
-    return TaskService.update_task(db, task_id, task_request, remove_user=r)
+    return TaskService.update_task(db, task_id, task_request, remove_user=remove_user)
 
 
 @router.delete("/{task_id}", status_code=status.HTTP_204_NO_CONTENT)

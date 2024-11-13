@@ -1,8 +1,12 @@
 import { BuildingOffice2Icon, ClipboardDocumentListIcon, HomeIcon, UsersIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
-export const Sidebar = (
-) => {
+
+// const sidebar = [
+//     { name: "Home", url: "/", icon: <HomeIcon width={25} /> }
+// ]
+
+export const Sidebar = () => {
     return (
         <div className="sticky top-40%">
             <ul className="text-center">

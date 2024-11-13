@@ -2,6 +2,7 @@ const getToken = () => {
   const s = sessionStorage.getItem("jwt_token")
   return s ? s : "{}"
 }
+
 export const axiosConfig = () => {
   return {
     headers: {
@@ -9,4 +10,5 @@ export const axiosConfig = () => {
     }
   }
 }
-export const API = "http://localhost:8000"
+
+export const URL = "http://localhost:8000"
